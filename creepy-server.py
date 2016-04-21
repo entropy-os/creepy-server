@@ -12,8 +12,13 @@ import os
 import sys
 import urllib.parse
 import socket
+import signal
 
 __version__ = "0.1.0"
+
+def ctrl_c_handler(signum, frame):
+    print("Exiting server...")
+    sys.exit(0)
 
 
 def generate_package_description(path):
@@ -54,11 +59,12 @@ def init_server(url):
     sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sk.bind((url.hostname, url.port))
     sk.listen(10)
-    print("Done ! Waiting for connections...")
+    print("Done ! Waiting for connections... (You can use Ctrl-C to stop the server)")
     return sk
 
 
 def main(argv):
+    signal.signal(signal.SIGINT, ctrl_c_handler)
     url = argv[0] if (len(argv)) else "http://localhost:8000"
     sk = init_server(url)
     while True:
