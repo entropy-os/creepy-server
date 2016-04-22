@@ -16,6 +16,7 @@ import signal
 
 __version__ = "0.1.0"
 
+
 def ctrl_c_handler(signum, frame):
     print("Exiting server...")
     sys.exit(0)
@@ -59,7 +60,8 @@ def init_server(url):
     sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sk.bind((url.hostname, url.port))
     sk.listen(10)
-    print("Done ! Waiting for connections... (You can use Ctrl-C to stop the server)")
+    print("Done ! Waiting for connections..."
+          " (You can use Ctrl-C to stop the server)")
     return sk
 
 
